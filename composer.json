@@ -1,35 +1,40 @@
 {
-    "name": "inani/larapoll",
+    "name": "akash/laravel-poll",
     "description": "A Laravel package to create polls",
-    "keywords": ["polls", "votes", "laravel", "php"],
+    "keywords": [
+        "polls",
+        "votes",
+        "laravel",
+        "php"
+    ],
     "license": "MIT",
     "authors": [
         {
-            "name": "Inani El Houssain",
-            "email": "inanielhoussain@gmail.com"
+            "name": "Maniruzzaman Akash",
+            "email": "manirujjamanakash@gmail.com"
         }
     ],
     "minimum-stability": "stable",
     "autoload": {
-      "psr-4": {
-        "Inani\\Larapoll\\": "src/"
-      }
+        "psr-4": {
+            "Inani\\Larapoll\\": "src/"
+        }
     },
     "require": {
-      "illuminate/support": "~5|~6|~7|~8"
+        "illuminate/support": "~5|~6|~7|~8|~9"
     },
     "require-dev": {
-      "fzaninotto/faker": "~1.4",
-      "phpunit/phpunit": "~4.0"
+        "fzaninotto/faker": "~1.4",
+        "phpunit/phpunit": "~4.0"
     },
     "extra": {
-      "laravel": {
-        "providers": [
-          "Inani\\Larapoll\\LarapollServiceProvider"
-        ],
-        "aliases": {
-          "PollWriter": "Inani\\Larapoll\\PollWriterFacade"
+        "laravel": {
+            "providers": [
+                "Inani\\Larapoll\\LarapollServiceProvider"
+            ],
+            "aliases": {
+                "PollWriter": "Inani\\Larapoll\\PollWriterFacade"
+            }
         }
-      }
     }
 }
