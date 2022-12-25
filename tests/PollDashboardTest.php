@@ -255,6 +255,7 @@ class PollDashboardTest extends LarapollTestCase
 
         $this->dontSeeInDatabase('larapoll_polls', ['id' => $poll->id]);
     }
+
     /**
      * Make a user and Connect as admin
      *

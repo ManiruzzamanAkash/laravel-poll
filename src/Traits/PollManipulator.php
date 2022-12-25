@@ -1,4 +1,5 @@
 <?php
+
 namespace Inani\Larapoll\Traits;
 
 use Illuminate\Support\Collection;

@@ -1,4 +1,5 @@
 <?php
+
 use Inani\Larapoll\Poll;
 use Faker\Generator as Faker;
 

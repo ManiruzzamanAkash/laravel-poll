@@ -4,6 +4,8 @@
 namespace Inani\Larapoll\Traits;
 
 
+use Exception;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Inani\Larapoll\Exceptions\PollNotSelectedToVoteException;
 use Inani\Larapoll\Exceptions\VoteInClosedPollException;
@@ -37,7 +39,7 @@ trait Voter
      * @return bool
      * @throws PollNotSelectedToVoteException
      * @throws VoteInClosedPollException
-     * @throws \Exception
+     * @throws Exception
      */
     public function vote($options)
     {
@@ -50,7 +52,7 @@ trait Voter
             throw new VoteInClosedPollException();
 
         if ($this->hasVoted($this->poll->id))
-            throw new \Exception("User can not vote again!");
+            throw new Exception("User can not vote again!");
 
         // if is Radio and voted for many options
         $countVotes = count($options);
@@ -58,7 +60,7 @@ trait Voter
         if ($this->poll->isRadio() && $countVotes > 1)
             throw new InvalidArgumentException("The poll can not accept many votes option");
 
-        if ($this->poll->isCheckable() &&  $countVotes > $this->poll->maxCheck)
+        if ($this->poll->isCheckable() && $countVotes > $this->poll->maxCheck)
             throw new InvalidArgumentException("selected more options {$countVotes} than the limited {$this->poll->maxCheck}");
 
         array_walk($options, function (&$val) {
@@ -86,6 +88,10 @@ trait Voter
      */
     public function hasVoted($poll_id)
     {
+        if (empty($poll_id)) {
+            return false;
+        }
+
         $poll = Poll::findOrFail($poll_id);
 
         if ($poll->canGuestVote()) {
@@ -94,7 +100,9 @@ trait Voter
                 ->join('larapoll_options', 'larapoll_polls.id', '=', 'larapoll_options.poll_id')
                 ->join('larapoll_votes', 'larapoll_votes.option_id', '=', 'larapoll_options.id')
                 ->where('larapoll_votes.user_id', request()->ip())
-                ->where('larapoll_options.poll_id', $poll_id)->count();
+                ->where('larapoll_options.poll_id', $poll_id)
+                ->count();
+
             return $result !== 0;
         }
 
@@ -104,7 +112,7 @@ trait Voter
     /**
      * The options he voted to
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function options()
     {

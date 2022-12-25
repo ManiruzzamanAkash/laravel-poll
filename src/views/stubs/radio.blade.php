@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('poll.vote', $id) }}" >
+<form method="POST" action="{{ route('poll.vote', $id) }}">
     @csrf
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -22,6 +22,6 @@
         </ul>
     </div>
     <div class="panel-footer">
-        <input type="submit" class="btn btn-primary btn-sm" value="Vote" />
+        <input type="submit" class="btn btn-primary btn-sm" value="Vote"/>
     </div>
 </form>

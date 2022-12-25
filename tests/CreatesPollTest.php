@@ -41,6 +41,7 @@ class CreatesPollTest extends LarapollTestCase
             ->see('Question should be asked')
             ->see('Two options must be used at least');
     }
+
     /**
      * Make a user and Connect as admin
      *

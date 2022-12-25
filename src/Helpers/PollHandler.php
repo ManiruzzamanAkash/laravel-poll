@@ -39,7 +39,7 @@ class PollHandler
 
         $poll->startsAt($request['starts_at']);
 
-        if(isset($request['ends_at'])){
+        if (isset($request['ends_at'])) {
             $poll->endsAt($request['ends_at']);
         }
 
@@ -56,10 +56,10 @@ class PollHandler
      */
     public static function modify(Poll $poll, $data)
     {
-        if($poll->canChangeOptions()){
+        if ($poll->canChangeOptions()) {
             $poll->options()->delete();
 
-            collect($data['options'])->each(function ($option) use($poll){
+            collect($data['options'])->each(function ($option) use ($poll) {
                 Option::create([
                     'name' => $option,
                     'poll_id' => $poll->id,
@@ -86,7 +86,7 @@ class PollHandler
 
         $poll->question = $data['question'];
 
-        if(isset($data['ends_at'])){
+        if (isset($data['ends_at'])) {
             $poll->endsAt($data['ends_at']);
         }
 
@@ -109,7 +109,7 @@ class PollHandler
         if ($e instanceof CheckedOptionsException)
             return 'You should edit the number of checkable options first.';
 
-        if ($e instanceof  InvalidArgumentException) {
+        if ($e instanceof InvalidArgumentException) {
             return $e->getMessage();
         }
     }

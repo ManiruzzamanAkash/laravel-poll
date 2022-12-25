@@ -99,7 +99,8 @@ class PollTest extends LarapollTestCase
         $voteFor = $poll->options()->get()->take(3)->pluck('id')->all();
         try {
             $voter->poll($poll)->vote($voteFor);
-        } catch (\InvalidArgumentException $e) { }
+        } catch (\InvalidArgumentException $e) {
+        }
         $this->assertNotNull($e);
     }
 
@@ -122,7 +123,8 @@ class PollTest extends LarapollTestCase
         $this->assertTrue($voter->poll($poll)->vote($option->getKey()));
         try {
             $poll->detach($option);
-        } catch (RemoveVotedOptionException $e) { }
+        } catch (RemoveVotedOptionException $e) {
+        }
         $this->assertNotNull($e);
 
         $this->assertEquals(4, $poll->optionsNumber());
@@ -210,6 +212,7 @@ class PollTest extends LarapollTestCase
         $poll->unLock();
         $this->assertTrue($voter->poll($poll)->vote($option->getKey()));
     }
+
     /** @test */
     public function it_removes_poll_with_its_options_and_votes()
     {

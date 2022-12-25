@@ -13,25 +13,31 @@ class PollWriter
         PollWriterVoting;
 
     /**
-     * Draw a Poll
+     * Draw a Poll.
      *
-     * @param Poll $poll
+     * @param Poll $poll | null
      * @return string
      */
-    public function draw($poll)
+    public function draw($poll = null)
     {
-        if(is_int($poll)){
+        if (empty($poll)) {
+            $poll = new Poll([
+                'question' => 'New Poll',
+                'poll_id' => 1,
+            ]);
+        }
+
+        if (is_int($poll)) {
             $poll = Poll::findOrFail($poll);
         }
 
-        if(!$poll instanceof Poll){
+        if (!$poll instanceof Poll) {
             throw new \InvalidArgumentException("The argument must be an integer or an instance of Poll");
         }
 
         if ($poll->isComingSoon()) {
             return 'To start soon';
         }
-
 
         $voter = $poll->canGuestVote() ? new Guest(request()) : auth(config('larapoll_config.admin_guard'))->user();
 

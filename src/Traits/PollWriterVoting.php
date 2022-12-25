@@ -1,4 +1,5 @@
 <?php
+
 namespace Inani\Larapoll\Traits;
 
 use Illuminate\Support\Facades\Session;
@@ -15,7 +16,7 @@ trait PollWriterVoting
     {
         $options = $poll->options->pluck('name', 'id');
 
-        echo view(config('larapoll_config.checkbox') ? config('larapoll_config.checkbox') :  'larapoll::stubs.checkbox', [
+        echo view(config('larapoll_config.checkbox') ? config('larapoll_config.checkbox') : 'larapoll::stubs.checkbox', [
             'id' => $poll->id,
             'question' => $poll->question,
             'options' => $options
@@ -31,7 +32,7 @@ trait PollWriterVoting
     {
         $options = $poll->options->pluck('name', 'id');
 
-        echo view(config('larapoll_config.radio') ? config('larapoll_config.radio') :'larapoll::stubs.radio', [
+        echo view(config('larapoll_config.radio') ? config('larapoll_config.radio') : 'larapoll::stubs.radio', [
             'id' => $poll->id,
             'question' => $poll->question,
             'options' => $options

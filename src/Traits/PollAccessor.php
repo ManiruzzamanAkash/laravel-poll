@@ -1,4 +1,5 @@
 <?php
+
 namespace Inani\Larapoll\Traits;
 
 trait PollAccessor

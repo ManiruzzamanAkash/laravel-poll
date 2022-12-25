@@ -1,30 +1,42 @@
-@extends('larapoll::layouts.app')
+@extends('backend.layouts.master')
+
 @section('title')
-    Polls- Edit
+    @include('larapoll::dashboard.partials.title')
 @endsection
-@section('style')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet" />
+
+@section('styles')
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"
+          rel="stylesheet"/>
     <style>
         .custom-label input:checked + svg {
             display: block !important;
         }
 
-        .option-check{
+        .option-check {
             margin-bottom: 10px;
         }
     </style>
 @endsection
-@section('content')
+
+@section('admin-content')
     <div class="container mx-auto" id="app">
+        @include('larapoll::dashboard.partials.header-breadcrumbs')
         <section class="p-10 px-0">
             <ol class="list-none p-0 inline-flex">
                 <li class="flex items-center">
                     <a href="{{ route('poll.home') }}">Home</a>
-                    <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+                    <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path
+                            d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>
+                    </svg>
                 </li>
                 <li class="flex items-center">
                     <a href="{{ route('poll.index') }}">Polls</a>
-                    <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+                    <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path
+                            d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>
+                    </svg>
                 </li>
                 <li>
                     <a href="#" class="text-gray-500" aria-current="page">Edit</a>
@@ -35,42 +47,62 @@
             <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 
                 <div class="mb-6">
-                    <label class="block text-gray-700 text-lg font-bold mb-2 uppercase tracking-wide font-bold" for="question">
+                    <label class="block text-gray-700 text-lg font-bold mb-2 uppercase tracking-wide font-bold"
+                           for="question">
                         Question
                     </label>
-                    <input v-model="question" placeholder="{{ $poll->question }}" class="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="text">
+                    <input v-model="question" placeholder="{{ $poll->question }}"
+                           class="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                           id="password" type="text">
                 </div>
 
                 <div class="flex flex-wrap mb-6">
-                    <label class="block text-gray-700 text-lg font-bold mb-2 uppercase tracking-wide font-bold" for="options">
+                    <label class="block text-gray-700 text-lg font-bold mb-2 uppercase tracking-wide font-bold"
+                           for="options">
                         Options
                     </label>
-                    <div v-for="(option, index) in options" class="w-full flex items-center border-b border-b-2 border-teal-500 py-2">
-                        <input :disabled="canChangeOptions" v-model="option.value" :placeholder="option.placeholder" class="appearance-none bg-transparent border-none block w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" />
-                        <button v-if="canChangeOptions" @click.prevent="remove(index)" class="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded" type="button">
+                    <div v-for="(option, index) in options"
+                         class="w-full flex items-center border-b border-b-2 border-teal-500 py-2">
+                        <input :disabled="canChangeOptions" v-model="option.value" :placeholder="option.placeholder"
+                               class="appearance-none bg-transparent border-none block w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                               type="text"/>
+                        <button v-if="canChangeOptions" @click.prevent="remove(index)"
+                                class="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+                                type="button">
                             Remove
                         </button>
                     </div>
-                    <div v-if="canChangeOptions" class="w-full flex items-center border-b border-b-2 border-teal-500 py-2">
-                        <input @keyup.enter="addNewOption" v-model="newOption" class="appearance-none bg-transparent border-none block w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Type your option ..." aria-label="Full name">
-                        <button @click.prevent="addNewOption" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
+                    <div v-if="canChangeOptions"
+                         class="w-full flex items-center border-b border-b-2 border-teal-500 py-2">
+                        <input @keyup.enter="addNewOption" v-model="newOption"
+                               class="appearance-none bg-transparent border-none block w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                               type="text" placeholder="Type your option ..." aria-label="Full name">
+                        <button @click.prevent="addNewOption"
+                                class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+                                type="button">
                             Add
                         </button>
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                               for="grid-first-name">
                             Starts at
                         </label>
-                        <input value="{{ $poll->starts_at }}" id="starts_at" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white localDates" type="text">
+                        <input value="{{ $poll->starts_at }}" id="starts_at"
+                               class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white localDates"
+                               type="text">
                         <p class="text-red-500 text-xs italic hidden">Please fill out this field.</p>
                     </div>
                     <div class="w-full md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                               for="grid-last-name">
                             Ends at
                         </label>
-                        <input value="{{ $poll->ends_at }}" id="ends_at" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 localDates" type="text">
+                        <input value="{{ $poll->ends_at }}" id="ends_at"
+                               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 localDates"
+                               type="text">
                     </div>
                 </div>
 
@@ -78,8 +110,18 @@
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 option-check">
                         <label class="custom-label flex">
                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                <input id="canVisitors" type="checkbox" class="hidden" {{ $poll->canVisitorsVote ? 'checked' : ''  }}>
-                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                <input id="canVisitors" type="checkbox"
+                                       class="hidden" {{ $poll->canVisitorsVote ? 'checked' : ''  }}>
+                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172">
+                                    <g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none"
+                                       font-weight="none" font-size="none" text-anchor="none"
+                                       style="mix-blend-mode:normal">
+                                        <path d="M0 172V0h172v172z"/>
+                                        <path
+                                            d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z"
+                                            fill="currentColor" stroke-width="1"/>
+                                    </g>
+                                </svg>
                             </div>
                             <span class="select-none">Allow guests to vote on the question</span>
                         </label>
@@ -87,8 +129,18 @@
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 option-check">
                         <label class="custom-label flex">
                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                <input id="canVoterSeeResult" type="checkbox" class="hidden" {{ $poll->showResultsEnabled() ? 'checked' : ''  }} >
-                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                <input id="canVoterSeeResult" type="checkbox"
+                                       class="hidden" {{ $poll->showResultsEnabled() ? 'checked' : ''  }} >
+                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172">
+                                    <g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none"
+                                       font-weight="none" font-size="none" text-anchor="none"
+                                       style="mix-blend-mode:normal">
+                                        <path d="M0 172V0h172v172z"/>
+                                        <path
+                                            d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z"
+                                            fill="currentColor" stroke-width="1"/>
+                                    </g>
+                                </svg>
                             </div>
                             <span class="select-none">Can Voter see result</span>
                         </label>
@@ -96,12 +148,14 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-gray-700 text-lg font-bold mb-2 uppercase tracking-wide font-bold" for="question">
+                    <label class="block text-gray-700 text-lg font-bold mb-2 uppercase tracking-wide font-bold"
+                           for="question">
                         Number of options to be selected
                     </label>
-                    <select v-model="maxCheck" name="count_check" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                    <select v-model="maxCheck" name="count_check"
+                            class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                         <option
-                            v-for="(option, index) in Array(options.length -1 ).keys()"
+                            v-for="(option, index) in Object.keys('options')"
                             :value="index + 1"
                         >
                             @{{ index + 1 }}
@@ -109,7 +163,9 @@
                     </select>
                 </div>
                 <div class="flex items-center justify-between">
-                    <button @click.prevent="save" class="bg-teal-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button @click.prevent="save"
+                            class="bg-teal-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="button">
                         Save
                     </button>
                 </div>
@@ -119,28 +175,29 @@
 
 @endsection
 
-@section('js')
+@section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="https://unpkg.com/vue-toasted"></script>
     <script>
         Vue.use(Toasted)
         new Vue({
             el: '#app',
-            computed:{
-                filledOptions(){
+            computed: {
+                filledOptions() {
                     return this.options.map((option) => {
                         return option.value;
-                    } ).filter((option) => option);
+                    }).filter((option) => option);
                 }
             },
-            mounted(){
+            mounted() {
                 $('.localDates').datetimepicker({
                     format: 'y-m-d H:m',
                 });
             },
-            data(){
+            data() {
                 return {
                     id: "{{ $poll->id }}",
                     maxCheck: "{{ $poll->maxCheck }}",
@@ -151,14 +208,14 @@
                     error_message: '',
                 }
             },
-            methods:{
-                addNewOption(){
-                    if(this.newOption.length === 0){
+            methods: {
+                addNewOption() {
+                    if (this.newOption.length === 0) {
                         this.error_message = "Please fill the option field";
                         this.flushModal();
                         return;
                     }
-                    if(this.filledOptions.filter( option => option === this.newOption).length !== 0){
+                    if (this.filledOptions.filter(option => option === this.newOption).length !== 0) {
                         this.error_message = "You can't use the same more than once";
                         this.flushModal();
                         return;
@@ -170,34 +227,34 @@
                     });
                     this.newOption = '';
                 },
-                remove(index){
-                    if(this.filledOptions.length <= 2){
+                remove(index) {
+                    if (this.filledOptions.length <= 2) {
                         this.error_message = "Two options are the minimal";
                         this.flushModal();
                         return;
                     }
                     this.options = this.options.map((option, localIndex) => {
-                        if(localIndex === index){
+                        if (localIndex === index) {
                             return null;
                         }
 
                         return option
                     }).filter(option => option);
                 },
-                save(){
-                    if(this.question.length === 0){
+                save() {
+                    if (this.question.length === 0) {
                         this.error_message = "Please fill the question first";
                         this.flushModal();
                         return;
                     }
 
-                    if(this.filledOptions.length < 2){
+                    if (this.filledOptions.length < 2) {
                         this.error_message = "Two options are the minimal";
                         this.flushModal();
                         return;
                     }
 
-                    if(this.maxCheck >= this.filledOptions.length){
+                    if (this.maxCheck >= this.filledOptions.length) {
                         this.error_message = "You can not allow to select all the options";
                         this.flushModal();
                         return;
@@ -213,8 +270,7 @@
                     };
 
 
-
-                    if(document.getElementById('ends_at').value !== ''){
+                    if (document.getElementById('ends_at').value !== '') {
                         data.ends_at = document.getElementById('ends_at').value;
                     }
 
@@ -234,7 +290,7 @@
                                 })
                         })
                 },
-                flushModal(message = this.error_message, after = 1500){
+                flushModal(message = this.error_message, after = 1500) {
                     Vue.toasted.error(message).goAway(after);
                 }
             }

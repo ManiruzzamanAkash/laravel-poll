@@ -4,6 +4,7 @@
 namespace Inani\Larapoll\Exceptions;
 
 use Exception;
+
 class VoteInClosedPollException extends Exception
 {
     /**

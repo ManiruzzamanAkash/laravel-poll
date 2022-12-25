@@ -20,6 +20,7 @@ class PollManagerController extends Controller
     {
         return redirect()->route('poll.index');
     }
+
     /**
      * Show all the Polls in the database
      *
@@ -27,7 +28,7 @@ class PollManagerController extends Controller
      */
     public function index()
     {
-        $polls = Poll::withCount('options', 'votes')->get()->map(function ($poll){
+        $polls = Poll::withCount('options', 'votes')->get()->map(function ($poll) {
             $poll->isComingSoon = $poll->isComingSoon();
             $poll->isLocked = $poll->isLocked();
             $poll->isRunning = $poll->isRunning();
@@ -107,6 +108,7 @@ class PollManagerController extends Controller
         $poll->remove();
         return response('', 200);
     }
+
     public function create()
     {
         return view('larapoll::dashboard.create');

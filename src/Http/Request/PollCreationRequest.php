@@ -23,9 +23,9 @@ class PollCreationRequest extends FormRequest
      */
     public function rules()
     {
-        if($this->isMethod('patch')){
+        if ($this->isMethod('patch')) {
             return [
-              'question' => 'required'
+                'question' => 'required'
             ];
         }
 

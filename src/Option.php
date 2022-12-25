@@ -12,6 +12,7 @@ class Option extends Model
     protected $guarded = [];
 
     protected $table = 'larapoll_options';
+
     /**
      * An option belongs to one poll
      *
